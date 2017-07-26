@@ -18,7 +18,7 @@ bool velProfile(double maxV, double maxA, double maxJ, double travelDist, double
 	double f1sum[0] = 0;
 	double f2sum;
 	std::vector <double> vecV;
-	vecV[0] = 0;
+	vecV[0] = 0; // kcj vecV.push_back(0);
 	double prevP = 0;
 	int i = 0;
 	double lv1;
