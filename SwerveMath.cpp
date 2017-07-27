@@ -8,6 +8,8 @@ class swerveDriveMath
 {
 	int wheelCount = 4; // check how should be handled
 	std::array<std::array<double, 2>, wheelCount> wheelCoordinates;
+	double maximumSpeed; //M / s should this be here?
+
 	//add contructor
 	swerveDriveMath(std::array<std::array<double, 2>, wheelCount> _wheelCoordinates)
 	{
@@ -75,7 +77,7 @@ class swerveDriveMath
 		}
 		//parking config isn't handled here, some movement should be passed to this function
 		*/
-		std::array<double, 2> rotatedVelocity = rotate(velocityVector);
+		std::array<double, 2> rotatedVelocity = rotate(velocityVector); //Change to vectors
 		std::array<double, wheelCount> speeds;
 		std::array<double, wheelCount> angles;
 		for (int i = 0; i == wheelCount; i++)
