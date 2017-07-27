@@ -1,32 +1,37 @@
-# Prerequisites
-*.d
+# Libraries
+*.lvlibp
+*.llb
 
-# Compiled Object files
-*.slo
-*.lo
-*.o
-*.obj
-
-# Precompiled Headers
-*.gch
-*.pch
-
-# Compiled Dynamic libraries
-*.so
-*.dylib
+# Shared objects (inc. Windows DLLs)
 *.dll
-
-# Fortran module files
-*.mod
-*.smod
-
-# Compiled Static libraries
-*.lai
-*.la
-*.a
+*.so
+*.so.*
+*.dylib
+*.o
 *.lib
+*.a
 
 # Executables
 *.exe
-*.out
-*.app
+*.pyc
+
+# Metadata
+*.aliases
+*.lvlps
+
+# backup files
+*~
+*.bak
+*.sw[op]
+x
+
+# Cmake stuff
+CMakeCache.txt
+CMakeFiles
+cmake_install.cmake
+Makefile
+.ninja_deps
+.ninja_log
+build.ninja
+rules.ninja 
+
