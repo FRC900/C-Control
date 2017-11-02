@@ -1,9 +1,12 @@
+#include "stdafx.h"
 #include <algorithm>
 #include <vector>
 #include <array>
 #include <cmath> // KCJ - math.h and cmath are redundant, I think
 #include <math.h>
 #include <stdlib.h> // KCJ - see if this is needed, if so use cstdlib
+#include "900Math.h"
+#include "SwerveMath.h"
 
 // KCJ - math.h includes M_PI constant, use that instead
 static const double pi = 3.1415926535897;
@@ -32,34 +35,12 @@ T maximum(const T& input)
 // Looks like all the calls to this assign the result back to the input
 // so consider just doing the operation in place (i.e. non-const input
 // and just overwrite input with the normalized values
-template <class T>
-T normalize(const T& input)
-{
-	// KCJ
-	// - there are functions named min and max so naming variables min and max
-	//   might cause conflicts
-	double max = *std::max_element(wheelMultipliers.begin(), wheelMultipliers.end());
-	double min = *std::min_element(wheelMultipliers.begin(), wheelMultipliers.end());
-	double absoluteMax;
 
-	// KCJ - use max(abs(max), abs(min) here?
-	absoluteMax = (abs(max) > abs(min)) ? abs(max) : abs(min);
-
-	T normalized;
-	for (int i = 0; i < input.size(); i++)
-	{
-		// KCJ - instead of input.at(i), input[i] is
-		// more typically used
-		normalized[i] = input.at(i) / absoluteMax;
-	}
-
-	// KCJ - need return value
-}
 
 // KCJ - look at the c++ hypot() function
 double pythaguptotwo(double a, double b)
 {
-	double c = lookup_table[(a*a + b*b)]; //sqrt lookup table
+	double c = sqrt(a*a + b*b); //sqrt lookup table
 	return c;
 }
 double pythag(double a, double b)
@@ -148,10 +129,9 @@ std::array<double, 2> rotate(double angle, std::array<double, 2> vector)
 }
 double normalizeAngle(double angle) //normalizes between -pi and pi
 {
-	// KCJ use -= here, or better yet just return the 
-	// calculated value instead of assigning it to angle
-	angle = angle - floor((angle + pi) / (2 * pi)) * 2 * pi;
-	return angle;
+
+	return angle - floor((angle + pi) / (2 * pi)) * 2 * pi;
+	
 }
 
 // KCJ - if you're returning more than 1 thing, probably best to
@@ -164,10 +144,11 @@ double normalizeAngle(double angle) //normalizes between -pi and pi
 // without worring about which function it called, maybe?
 double leastDistantAngleWithinHalfPi(double currentAngle, double targetAngle, bool &reverse)
 {
+	//returns the closest angle to the current angle = to x*.5*pi + target angle where x is any integer
+	//used for turning wheels to the target angle (swerve)
 	double normalizedDiff = normalizeAngle(targetAngle) - normalizeAngle(currentAngle);
 
-	// KCJ - my eyes!  Do these ?: statements as if-else instead. I imagine you'll be able
-	// to optimize some mulitply by 1 or 0 stuff out pretty easily after that
+	
 	double withinPi = (abs(normalizedDiff) < pi) ? normalizedDiff : (normalizedDiff - (2 * pi*((normalizedDiff > 0) ? 1 : ((normalizedDiff < 0) ? -1 : 0))));
 	double withinHalfPi;
 	if (abs(withinPi) < (pi / 2))
@@ -180,7 +161,7 @@ double leastDistantAngleWithinHalfPi(double currentAngle, double targetAngle, bo
 		withinHalfPi = currentAngle + ((pi - abs(withinPi)) * ((withinPi > 0) ? 1 : ((withinPi < 0) ? -1 : 0))*(-1));
 		reverse = true;
 	}
-	double withinHalfPi = currentAngle + (abs(withinPi) < (pi / 2)) ? withinPi : ((pi - abs(withinPi)) * ((withinPi > 0) ? 1 : ((withinPi < 0) ? -1 : 0))*(-1));
+	withinHalfPi = currentAngle + (abs(withinPi) < (pi / 2)) ? withinPi : ((pi - abs(withinPi)) * ((withinPi > 0) ? 1 : ((withinPi < 0) ? -1 : 0))*(-1));
 	return withinHalfPi;
 }
 double leastDistantAngleWithinPi(double currentAngle, double targetAngle)
@@ -193,3 +174,4 @@ double coerce(double value, double lowerBound, double upperBound)
 {
 	return (value<lowerBound) ? lowerBound : (value>upperBound) ? upperBound : value;
 }
+
