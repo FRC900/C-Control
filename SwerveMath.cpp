@@ -1,4 +1,3 @@
-#include "stdafx.h"
 #include "SwerveMath.h"
 static const double pi = 3.1415926535897;
 
