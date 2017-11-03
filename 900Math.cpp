@@ -145,15 +145,20 @@ std::array<double, 2> rotate(double angle, std::array<double, 2> vector)
 // function below?  Code that uses it can query the reverse bool var
 // without worring about which function it called, maybe?
 
+double sign(double number)
+{
+	return (number > 0) ? 1 : ((number < 0) ? -1 : 0) 
+}
+
 
 double leastDistantAngleWithinHalfPi(double currentAngle, double targetAngle, bool &reverse)
 {
 	//returns the closest angle to the current angle = to x*.5*pi + target angle where x is any integer
 	//used for turning wheels to the target angle (swerve)
-	double normalizedDiff = normalizeAngle(targetAngle) - normalizeAngle(currentAngle);
+	double normalizedDiff = targetAngle - normalizeAngle(currentAngle);
 
 	
-	double withinPi = (abs(normalizedDiff) < pi) ? normalizedDiff : (normalizedDiff - (2 * pi*((normalizedDiff > 0) ? 1 : ((normalizedDiff < 0) ? -1 : 0))));
+	double withinPi = (abs(normalizedDiff) < pi) ? normalizedDiff : (normalizedDiff - (2 * pi*sign(normalizedDiff)));
 	double withinHalfPi;
 	if (abs(withinPi) < (pi / 2))
 	{
@@ -162,17 +167,17 @@ double leastDistantAngleWithinHalfPi(double currentAngle, double targetAngle, bo
 	}
 	else
 	{
-		withinHalfPi = currentAngle + ((pi - abs(withinPi)) * ((withinPi > 0) ? 1 : ((withinPi < 0) ? -1 : 0))*(-1));
+		withinHalfPi = currentAngle + ((pi - abs(withinPi)) * (-sign(withinPi));
 		reverse = true;
 	}
-	withinHalfPi = currentAngle + (abs(withinPi) < (pi / 2)) ? withinPi : ((pi - abs(withinPi)) * ((withinPi > 0) ? 1 : ((withinPi < 0) ? -1 : 0))*(-1));
 	return withinHalfPi;
 }
 
 double leastDistantAngleWithinPi(double currentAngle, double targetAngle)
 {
-	double normalizedDiff = normalizeAngle(targetAngle) - normalizeAngle(currentAngle);
-	double withinPi = (abs(normalizedDiff) < pi) ? normalizedDiff : (normalizedDiff - (2 * pi*((normalizedDiff > 0) ? 1 : ((normalizedDiff < 0) ? -1 : 0))));
+	double normalizedDiff = targetAngle - normalizeAngle(currentAngle);
+		
+	double withinPi = (abs(normalizedDiff) < pi) ? normalizedDiff : (normalizedDiff - (2 * pi*sign(normalizedDiff)));
 	return withinPi;
 }
 
