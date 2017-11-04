@@ -147,7 +147,7 @@ std::array<double, 2> rotate(double angle, std::array<double, 2> vector)
 
 double sign(double number)
 {
-	return (number > 0) ? 1 : ((number < 0) ? -1 : 0) 
+	return (number > 0) ? 1 : ((number < 0) ? -1 : 0); 
 }
 
 
@@ -162,15 +162,16 @@ double leastDistantAngleWithinHalfPi(double currentAngle, double targetAngle, bo
 	double withinHalfPi;
 	if (abs(withinPi) < (pi / 2))
 	{
-		withinHalfPi = currentAngle + withinPi;
+		withinHalfPi =  withinPi;
 		reverse = false;
 	}
 	else
 	{
-		withinHalfPi = currentAngle + ((pi - abs(withinPi)) * (-sign(withinPi));
+		
+		withinHalfPi = (-pi + abs(withinPi)) * (sign(withinPi));
 		reverse = true;
 	}
-	return withinHalfPi;
+	return withinHalfPi+currentAngle;
 }
 
 double leastDistantAngleWithinPi(double currentAngle, double targetAngle)
@@ -178,7 +179,7 @@ double leastDistantAngleWithinPi(double currentAngle, double targetAngle)
 	double normalizedDiff = targetAngle - normalizeAngle(currentAngle);
 		
 	double withinPi = (abs(normalizedDiff) < pi) ? normalizedDiff : (normalizedDiff - (2 * pi*sign(normalizedDiff)));
-	return withinPi;
+	return withinPi+currentAngle;
 }
 
 

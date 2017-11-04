@@ -17,8 +17,8 @@ int main()
 	cin >> tarAngle;
 	
 	bool reverse;
-	cout << normalizeAngle(angle) << endl;
-	//cout << leastDistantAngleWithinHalfPi(angle, tarAngle, reverse) << endl;
+	//cout << normalizeAngle(angle) << endl;
+	cout << leastDistantAngleWithinHalfPi(angle, tarAngle, reverse) << endl;
 	//string rev;
 	//if(reverse){rev = "True";} else{rev = "False";}
 	//cout << rev  << endl;
