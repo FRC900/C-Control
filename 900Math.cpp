@@ -168,10 +168,10 @@ double leastDistantAngleWithinHalfPi(double currentAngle, double targetAngle, bo
 	else
 	{
 		
-		withinHalfPi = (-pi + abs(withinPi)) * (sign(withinPi));
+		withinHalfPi = (pi - withinPi);
 		reverse = true;
 	}
-	return withinHalfPi+currentAngle;
+	return withinHalfPi+currentAngle; //At some point is is possible to move this code to within the conditional logic so one less variable copy is needed 
 }
 
 double leastDistantAngleWithinPi(double currentAngle, double targetAngle)
