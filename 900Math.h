@@ -9,6 +9,7 @@ double leastDistantAngleWithinHalfPi(double currentAngle, double targetAngle, bo
 double normalizeAngle(double angle);
 double leastDistantAngleWithinPi(double currentAngle, double targetAngle);
 double coerce(double value, double lowerBound, double upperBound);
+double sign(double number);
 /*
 template <class T>
 T normalize(const T& input)

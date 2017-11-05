@@ -4,8 +4,6 @@
 #include <Eigen/Dense>
 
 static const double pi = M_PI;
-// I shouldn't need this but I am getting conflicts      #define WHEELCOUNT 4
-//TODO: switch Eigen::Vector2d to a vector class of some kind
 
 
 swerveDriveMath::swerveDriveMath(std::array<Eigen::Vector2d, WHEELCOUNT> _wheelCoordinates)
@@ -34,7 +32,7 @@ std::array<Eigen::Vector2d, WHEELCOUNT> swerveDriveMath::wheelMultipliersXY(std:
 		wheelAngles[i] = (atan2(x, y) + .5*pi);
 	}
 	std::array<Eigen::Vector2d, WHEELCOUNT> multipliersXY;
-	wheelMultipliers = normalize(wheelMultipliers); //Fix
+	wheelMultipliers = normalize(wheelMultipliers); //TODO: Fix, add normalize function that works to 900Math.cpp
 	for (int i = 0; i < WHEELCOUNT; i++)
 	{
 		multipliersXY[i][0] = wheelMultipliers[i] * cos(wheelAngles.at(i));
@@ -54,7 +52,9 @@ std::array<Eigen::Vector2d, WHEELCOUNT> swerveDriveMath::wheelSpeedsAngles(std::
 	
 	//parking config isn't handled here (the code commented out above was the outline of how it could be handled here). Only call function if movement exists.
 	
-	Eigen::Vector2d rotatedVelocity = // TODO fix to use eigen  rotate(angle, velocityVector); //Change to vectors
+	//Rotate the target velocity by the robots angle to make it field centric
+	Rotation2Dd r(angle);	
+	Eigen::Vector2d rotatedVelocity = r.toRotationMatrix()*velocityVector //Should this instead be a function in 900Math of the form: rotate(vector, angle) rather than 2 lines of eigen stuff?
 	std::array<double, WHEELCOUNT> speeds;
 	std::array<double, WHEELCOUNT> angles;
 	for (int i = 0; i < WHEELCOUNT; i++)
@@ -64,7 +64,7 @@ std::array<Eigen::Vector2d, WHEELCOUNT> swerveDriveMath::wheelSpeedsAngles(std::
 		angles[i] = (atan2(x, y));
 		speeds[i] = sqrt(x*x + y*y);
 	}
-	speeds = normalize(speeds);
+	speeds = normalize(speeds); //TODO: Fix, add normalize function that works to 900Math.cpp
 	std::array<Eigen::Vector2d, WHEELCOUNT> speedsAngles;
 	for (int i = 0; i < WHEELCOUNT; i++)
 	{

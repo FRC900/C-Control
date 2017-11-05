@@ -1,6 +1,6 @@
 //#include <algorithm>
 //#include <vector>
-#include <array>
+//#include <array>
 //#include <cmath> // KCJ - math.h and cmath are redundant, I think
 #include <math.h>
 //#include <stdlib.h> // KCJ - see if this is needed, if so use cstdlib
@@ -124,7 +124,7 @@ return normalized
  *   Other notes similar to above : use [] instead of at()
  *   */
 
-
+/*
 std::array<double, 2> rotate(double angle, std::array<double, 2> vector)
 {
 	std::array<double, 2> rotated;
@@ -132,7 +132,7 @@ std::array<double, 2> rotate(double angle, std::array<double, 2> vector)
 	rotated[1] = (vector.at(0)*sin(angle) + vector.at(1)*cos(angle));
 	return rotated;
 }
-
+*/
 
 
 

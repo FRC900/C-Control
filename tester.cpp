@@ -1,27 +1,41 @@
 //#include "SwerveMath.h"
 
 #include <iostream>
-#include "900Math.h"
-#include "SwerveMath.h"
+//#include "900Math.h"
+//#include "SwerveMath.h"
+#include "nextVelocity.h"
 
 using namespace std;
 int main()
 {
-	double val;
-	cout << "val" << endl;
-	cin >> val;
+	double v;
+	cout << "v" << endl;
+	cin >> v;
 	
-	double lowerBound;
-	cout << "lower" << endl;
-	cin >> lowerBound;
+	double vt;
+	cout << "vt" << endl;
+	cin >> vt;
 
-	double upperBound;	
-	cout << "upper" << endl;
-	cin >> upperBound;
+	double a;	
+	cout << "a" << endl;
+	cin >> a;
 	
-	bool reverse;
+	double am;	
+	cout << "am" << endl;
+	cin >> am;
+	
+	
+	double jm;	
+	cout << "jm" << endl;
+	cin >> jm;
+
+	
+	double cr;	
+	cout << "cr" << endl;
+	cin >> cr;
+	//bool reverse;
 	//cout << normalizeAngle(angle) << endl;
-	cout << coerce(val, lowerBound, upperBound) << endl;
+	cout << nextVelocity(v, vt, a, am, jm, cr) << endl;
 	//string rev;
 	//if(reverse){rev = "True";} else{rev = "False";}
 	//cout << rev  << endl;
