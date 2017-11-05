@@ -4,15 +4,16 @@
 #include <Eigen/Dense>
 
 static const double pi = M_PI;
-//TODO: switch std::array<double, 2> to a vector class of some kind
+// I shouldn't need this but I am getting conflicts      #define WHEELCOUNT 4
+//TODO: switch Eigen::Vector2d to a vector class of some kind
 
 
-swerveDriveMath::swerveDriveMath(std::array<std::array<double, 2>, WHEELCOUNT> _wheelCoordinates)
+swerveDriveMath::swerveDriveMath(std::array<Eigen::Vector2d, WHEELCOUNT> _wheelCoordinates)
 {
 	wheelCoordinates = _wheelCoordinates;
 	parkingAngle = parkingAngles(wheelCoordinates);
 	//The below numbers can potentially change, it is relative to the wheel coordinates
-	std::array<double, 2> baseRotationCenter = {0, 0};
+	Eigen::Vector2d baseRotationCenter = {0, 0};
 	baseWheelMultipliersXY = wheelMultipliersXY(wheelCoordinates, baseRotationCenter);
 
 }
@@ -20,7 +21,7 @@ swerveDriveMath::swerveDriveMath(std::array<std::array<double, 2>, WHEELCOUNT> _
 
 
 //used for varying center of rotation and must be run once for initialization
-std::array<std::array<double, 2>, WHEELCOUNT> swerveDriveMath::wheelMultipliersXY(std::array<std::array<double, 2>, WHEELCOUNT> wheelCoordinates, std::array<double, 2> rotationCenter)
+std::array<Eigen::Vector2d, WHEELCOUNT> swerveDriveMath::wheelMultipliersXY(std::array<Eigen::Vector2d, WHEELCOUNT> wheelCoordinates, Eigen::Vector2d rotationCenter)
 {
 	std::array<double, WHEELCOUNT> wheelAngles;
 	std::array<double, WHEELCOUNT> wheelMultipliers;
@@ -32,7 +33,7 @@ std::array<std::array<double, 2>, WHEELCOUNT> swerveDriveMath::wheelMultipliersX
 		wheelMultipliers[i] = sqrt(x*x + y*y);
 		wheelAngles[i] = (atan2(x, y) + .5*pi);
 	}
-	std::array<std::array<double, 2>, WHEELCOUNT> multipliersXY;
+	std::array<Eigen::Vector2d, WHEELCOUNT> multipliersXY;
 	wheelMultipliers = normalize(wheelMultipliers); //Fix
 	for (int i = 0; i < WHEELCOUNT; i++)
 	{
@@ -42,8 +43,8 @@ std::array<std::array<double, 2>, WHEELCOUNT> swerveDriveMath::wheelMultipliersX
 	return multipliersXY; //change to array
 }
 
-std::array<std::array<double, 2>, WHEELCOUNT> swerveDriveMath::wheelSpeedsAngles(std::array<std::array<double, 2>, WHEELCOUNT> wheelMultipliersXY,
-	std::array<double, 2> velocityVector, double rotation, double angle) //for non field centric set angle to pi/2
+std::array<Eigen::Vector2d, WHEELCOUNT> swerveDriveMath::wheelSpeedsAngles(std::array<Eigen::Vector2d, WHEELCOUNT> wheelMultipliersXY,
+	Eigen::Vector2d velocityVector, double rotation, double angle) //for non field centric set angle to pi/2
 {
 	/*if (rotation == 0 && velocityVector.at(0) == 0 && velocityVector.at(1) == 0)
 	{
@@ -53,7 +54,7 @@ std::array<std::array<double, 2>, WHEELCOUNT> swerveDriveMath::wheelSpeedsAngles
 	
 	//parking config isn't handled here (the code commented out above was the outline of how it could be handled here). Only call function if movement exists.
 	
-	std::array<double, 2> rotatedVelocity = rotate(angle, velocityVector); //Change to vectors
+	Eigen::Vector2d rotatedVelocity = // TODO fix to use eigen  rotate(angle, velocityVector); //Change to vectors
 	std::array<double, WHEELCOUNT> speeds;
 	std::array<double, WHEELCOUNT> angles;
 	for (int i = 0; i < WHEELCOUNT; i++)
@@ -64,7 +65,7 @@ std::array<std::array<double, 2>, WHEELCOUNT> swerveDriveMath::wheelSpeedsAngles
 		speeds[i] = sqrt(x*x + y*y);
 	}
 	speeds = normalize(speeds);
-	std::array<std::array<double, 2>, WHEELCOUNT> speedsAngles;
+	std::array<Eigen::Vector2d, WHEELCOUNT> speedsAngles;
 	for (int i = 0; i < WHEELCOUNT; i++)
 	{
 
@@ -74,7 +75,7 @@ std::array<std::array<double, 2>, WHEELCOUNT> swerveDriveMath::wheelSpeedsAngles
 
 	return speedsAngles;
 }
-std::array<double, WHEELCOUNT> swerveDriveMath::parkingAngles(std::array<std::array<double, 2>, WHEELCOUNT> wheelCoordinates) //only must be run once to determine the angles of the wheels in parking config
+std::array<double, WHEELCOUNT> swerveDriveMath::parkingAngles(std::array<Eigen::Vector2d, WHEELCOUNT> wheelCoordinates) //only must be run once to determine the angles of the wheels in parking config
 {
 	std::array<double, WHEELCOUNT> angles;
 	for (int i = 0; i < wheelCoordinates.size(); i++)
