@@ -1,7 +1,6 @@
 #ifndef INC_900_MATH
 #define INC_900_MATH
-//#include "900Math.cpp"
-
+#include <array>
 
 //template <class T>
 //T normalize(const T& input);
@@ -9,6 +8,7 @@
 double leastDistantAngleWithinHalfPi(double currentAngle, double targetAngle, bool &reverse);
 double normalizeAngle(double angle);
 double leastDistantAngleWithinPi(double currentAngle, double targetAngle);
+double coerce(double value, double lowerBound, double upperBound);
 /*
 template <class T>
 T normalize(const T& input)
