@@ -1,5 +1,5 @@
-#ifndef INC_900_MATH
-#define INC_900_MATH
+#ifndef INC_NEXT_VELOCITY
+#define INC_NEXT_VELOCITY
 #include <math.h>
 
 
