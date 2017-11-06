@@ -20,7 +20,7 @@ bool motionProfile::genMotionProfile(double travelDist, std::vector<double> &vel
 {
 	if (maxV == 0 || maxA == 0 || maxJ == 0 || travelDist == 0)
 		return false;
-	double effMaxA = min(maxA, max(pow(abs(travelDist)*.5*maxJ*maxJ, 1.0 / 3), sqrt(maxJ*maxV)));
+	double effMaxA = min(maxA, min(pow(abs(travelDist)*.5*maxJ*maxJ, 1.0 / 3), sqrt(maxJ*maxV)));
 	cout << "effMaxA: " << effMaxA << endl;
 	double effMaxV = min(maxV, (effMaxA*effMaxA*(-1) + sqrt(pow(effMaxA, 4) + 4 * effMaxA*abs(travelDist)*maxJ*maxJ)) / (2 * maxJ));	
 	cout << "effMaxV: " << effMaxV << endl;
@@ -45,25 +45,39 @@ bool motionProfile::genMotionProfile(double travelDist, std::vector<double> &vel
 	
 	int min1;
 	int start;
-	
+	cout << "Starting Looping:" << endl;
 	do
 	{
 		min1 = min(i, v1);
+		
+		cout << "min1: " << min1 << endl;
 		start = i - (min1 - 1);
+		
+		cout << "start: " << start << endl;
 		for (int j = 0; j < min1; j++) //May have off by one error here
 		{
 			f2sum = f1sum[start + j] + f2sum;
 		}
+		
+		cout << "f2sum: " << f2sum << endl;
 		lv1 = f1sum[i] + (i + 2 < v3) ? 1 : -1;
+		
+		cout << "lv1: " << lv1 << endl;
 		f1 = coerce(lv1, 0, 1);
+		
+		cout << "f1: " << f1 << endl;
 		f1sum[i + 1] = f1;
 		
 		//cout << velocities.size() << endl;
 		velocities.push_back((f1 + f2sum) * effMaxV / (v1 + 1));
+		
+		cout << "velocity: " << velocities.at(i+1) << endl;
 		positions.push_back(((velocities.at(i) + velocities.at(i + 1))*controlRateMS / 2000) + positions.at(i));
+		
+		cout << "position: " << positions.at(i+1) << endl;
 		i++;
 		//cout << velocities.size() << endl;
-	} while ((i == 0 || velocities.at(i) != 0) && i<= maxSize);
+	} while ((i == 0 || velocities.at(i) != 0) && i<= maxSize && i<2);
 	cout << velocities.size() << endl;
 	velocities.erase(velocities.begin());
 	positions.erase(positions.begin());
