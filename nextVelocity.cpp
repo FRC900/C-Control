@@ -2,6 +2,7 @@
 #include <math.h>
 #include "900Math.h"
 #include "nextVelocity.h"
+#include <iostream>
 
 using namespace std;
 double nextVelocity(double v, double vt, double &a, double am, double jm, double cr) 
@@ -13,13 +14,15 @@ double nextVelocity(double v, double vt, double &a, double am, double jm, double
 	if(pow(a, 2)/jm >= diffv*g) //Fix tendency to overshoot?
 	{
 		//overshoot
-		if(abs(diffv/cr) - abs(a) < jm*cr) //verify and fix
+		if(abs((diffv/cr) -(a))  < jm*cr) //verify and fix
 		{
+			//cout<<"finish"<<endl;
 			a = (diffv/cr); //if we can get to target now, do it
 		}
 		else
 		{
-			a = (a - z * jm * cr);
+			a = (a -  g * jm * cr);
+			//cout<<"return from peak accel"<<endl;
 		}										 
 	}
 	else
@@ -38,12 +41,3 @@ double nextVelocity(double v, double vt, double &a, double am, double jm, double
 	nV = v + a * cr;
 	return nV;
 }
-//double simpleNextVelocity	
-//	if(sqrt((a^2+2*jm*abs(diffv))/2)>am)
-//	{
-		//flat
-//	}
-//	else
-//	{
-		//triangle
-//	}
