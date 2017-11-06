@@ -21,17 +21,17 @@ bool motionProfile::genMotionProfile(double travelDist, std::vector<double> &vel
 	if (maxV == 0 || maxA == 0 || maxJ == 0 || travelDist == 0)
 		return false;
 	double effMaxA = min(maxA, min(pow(abs(travelDist)*.5*maxJ*maxJ, 1.0 / 3), sqrt(maxJ*maxV)));
-	cout << "effMaxA: " << effMaxA << endl;
+//cout << "effMaxA: " << effMaxA << endl;
 	double effMaxV = min(maxV, (effMaxA*effMaxA*(-1) + sqrt(pow(effMaxA, 4) + 4 * effMaxA*abs(travelDist)*maxJ*maxJ)) / (2 * maxJ));	
-	cout << "effMaxV: " << effMaxV << endl;
+	//cout << "effMaxV: " << effMaxV << endl;
 	int v1 = ceil(effMaxA * 1000 / (maxJ*controlRateMS));	
-	cout << "v1: " << v1 << endl;
+	//cout << "v1: " << v1 << endl;
 	int v2 = ceil(effMaxV * 1000 / (effMaxA*controlRateMS));
-	cout << "v2: " << v2 << endl;
+	//cout << "v2: " << v2 << endl;
 	double v3 = abs(travelDist) * 1000 / (effMaxV*controlRateMS) + 2;
-	cout << "v3: " << v3 << endl;
+	//cout << "v3: " << v3 << endl;
 	int maxSize = floor(1000 * abs(travelDist) * 2 / (controlRateMS*effMaxV)) + 10;
-	cout << "maxSize: " << maxSize << endl;
+	//cout << "maxSize: " << maxSize << endl;
 	double f1sum[maxSize];
 	f1sum[0] = 0;
 	double f2sum;
@@ -45,40 +45,40 @@ bool motionProfile::genMotionProfile(double travelDist, std::vector<double> &vel
 	
 	int min1;
 	int start;
-	cout << "Starting Looping:" << endl;
+	//cout << "Starting Looping:" << endl;
 	do
 	{
 		min1 = min(i, v1);
 		
-		cout << "min1: " << min1 << endl;
+		//cout << "min1: " << min1 << endl;
 		start = i - (min1 - 1);
-		
-		cout << "start: " << start << endl;
+		f2sum = 0;	
+		//cout << "start: " << start << endl;
 		for (int j = 0; j < min1; j++) //May have off by one error here
 		{
 			f2sum = f1sum[start + j] + f2sum;
 		}
 		
-		cout << "f2sum: " << f2sum << endl;
-		lv1 = f1sum[i] + ((i + 2 < v3) ? 1 : -1)/v2;
+		//cout << "f2sum: " << f2sum << endl;
+		lv1 = f1sum[i] + ((i + 2 < v3) ? 1.0 : -1.0)/v2;
 		
-		cout << "lv1: " << lv1 << endl;
-		f1 = coerce(lv1, 0, 1); //TODO bugged
+		//cout << "lv1: " << lv1 << endl;
+		f1 = coerce(lv1, 0, 1); 
 		
-		cout << "f1: " << f1 << endl;
+		//cout << "f1: " << f1 << endl;
 		f1sum[i + 1] = f1;
 		
-		//cout << velocities.size() << endl;
+		////cout << velocities.size() << endl;
 		velocities.push_back((f1 + f2sum) * effMaxV / (v1 + 1));
 		
-		cout << "velocity: " << velocities.at(i+1) << endl;
+		//cout << "velocity: " << velocities.at(i+1) << endl;
 		positions.push_back(((velocities.at(i) + velocities.at(i + 1))*controlRateMS / 2000) + positions.at(i));
 		
-		cout << "position: " << positions.at(i+1) << endl;
+		//cout << "position: " << positions.at(i+1) << endl;
 		i++;
 		//cout << velocities.size() << endl;
-	} while ((i == 0 || velocities.at(i) != 0) && i<= maxSize && i<2);
-	cout << velocities.size() << endl;
+	} while ((i == 0 || velocities.at(i) != 0) && i<= maxSize);
+	//cout << velocities.size() << endl;
 	velocities.erase(velocities.begin());
 	positions.erase(positions.begin());
 	return true;
