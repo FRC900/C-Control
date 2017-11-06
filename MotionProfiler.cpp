@@ -60,10 +60,10 @@ bool motionProfile::genMotionProfile(double travelDist, std::vector<double> &vel
 		}
 		
 		cout << "f2sum: " << f2sum << endl;
-		lv1 = f1sum[i] + (i + 2 < v3) ? 1 : -1;
+		lv1 = f1sum[i] + ((i + 2 < v3) ? 1 : -1)/v2;
 		
 		cout << "lv1: " << lv1 << endl;
-		f1 = coerce(lv1, 0, 1);
+		f1 = coerce(lv1, 0, 1); //TODO bugged
 		
 		cout << "f1: " << f1 << endl;
 		f1sum[i + 1] = f1;
