@@ -20,8 +20,8 @@ bool motionProfile::genMotionProfile(double travelDist, std::vector<double> &vel
 {
 	if (maxV == 0 || maxA == 0 || maxJ == 0 || travelDist == 0)
 		return false;
-	double effMaxA = max(maxA, max(pow(abs(travelDist)*.5*maxJ*maxJ, 1.0 / 3), sqrt(maxJ*maxV)));
-	double effMaxV = max(maxV, (effMaxA*effMaxA*(-1) + sqrt(pow(effMaxA, 4) + 4 * effMaxA*abs(travelDist)*maxJ*maxJ)) / (2 * maxJ));
+	double effMaxA = min(maxA, max(pow(abs(travelDist)*.5*maxJ*maxJ, 1.0 / 3), sqrt(maxJ*maxV)));
+	double effMaxV = min(maxV, (effMaxA*effMaxA*(-1) + sqrt(pow(effMaxA, 4) + 4 * effMaxA*abs(travelDist)*maxJ*maxJ)) / (2 * maxJ));
 	int v1 = ceil(effMaxA * 1000 / (maxJ*controlRateMS));
 	int v2 = ceil(effMaxV * 1000 / (effMaxA*controlRateMS));
 	double v3 = abs(travelDist) * 1000 / (effMaxV*controlRateMS) + 2;
@@ -43,9 +43,9 @@ bool motionProfile::genMotionProfile(double travelDist, std::vector<double> &vel
 	
 	do
 	{
-		min1 = min(i, v2);
+		min1 = min(i, v1);
 		start = i - (min1 - 1);
-		for (int j = 0; j < min1; j++)
+		for (int j = 0; j < min1; j++) //May have off by one error here
 		{
 			f2sum = f1sum[start + j] + f2sum;
 		}
@@ -54,7 +54,7 @@ bool motionProfile::genMotionProfile(double travelDist, std::vector<double> &vel
 		f1sum[i + 1] = f1;
 		
 		//cout << velocities.size() << endl;
-		velocities.push_back(velocities.at(i)+(f1 + f2sum) * effMaxV / (v1 + 1));
+		velocities.push_back((f1 + f2sum) * effMaxV / (v1 + 1));
 		positions.push_back(((velocities.at(i) + velocities.at(i + 1))*controlRateMS / 2000) + positions.at(i));
 		i++;
 		cout << velocities.size() << endl;
