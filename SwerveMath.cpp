@@ -32,7 +32,7 @@ swerveDriveMath::swerveDriveMath( array<Eigen::Vector2d, WHEELCOUNT> _wheelCoord
 		wheelAngles[i] = (atan2(x, y) + .5*pi);
 	}
 	 array<Eigen::Vector2d, WHEELCOUNT> multipliersXY;
-	wheelMultipliers = normalize(wheelMultipliers); //TODO: Fix, add normalize function that works to 900Math.cpp
+	wheelMultipliers = normalize(wheelMultipliers); 	
 	for (int i = 0; i < WHEELCOUNT; i++)
 	{
 		multipliersXY[i][0] = wheelMultipliers[i] * cos(wheelAngles[i]);
@@ -53,7 +53,7 @@ swerveDriveMath::swerveDriveMath( array<Eigen::Vector2d, WHEELCOUNT> _wheelCoord
 	//parking config isn't handled here (the code commented out above was the outline of how it could be handled here). Only call function if movement exists.
 	
 	//Rotate the target velocity by the robots angle to make it field centric
-	Eigen::Rotation2Dd r(angle);	
+	Eigen::Rotation2Dd r(M_PI/2 - angle);	
 	Eigen::Vector2d rotatedVelocity = r.toRotationMatrix()*velocityVector; //Should this instead be a function in 900Math of the form: rotate(vector, angle) rather than 2 lines of eigen stuff?
 	 array<double, WHEELCOUNT> speeds;
 	 array<double, WHEELCOUNT> angles;
@@ -110,14 +110,33 @@ swerveDriveMath::swerveDriveMath( array<Eigen::Vector2d, WHEELCOUNT> _wheelCoord
 
 }
 
+//odometry/foward kinematic functions below
 
-///*vector of some variety*/ wheelAverage( array</*vector of some variety*/, WHEELCOUNT>, double angle)
-//{
-	//you know what goes here
-//}
-///*vector of some variety*/ threeWheelAvg( array</*vector of some variety*/, WHEELCOUNT>, double angle)
-//{
+movement wheelAverage(array<Eigen::Vector2d, WHEELCOUNT> wheelMove, double angle, bool rotation?)
+{
+	Eigen::Vector2d avgMove = (wheelMove[0] +  wheelMove[1] +  wheelMove[2] +  wheelMove[3])/4;
+
+	Eigen::Rotation2Dd r(angle - M_PI/2);	
+	Eigen::Vector2d rotatedMove = r.toRotationMatrix()*avgMove; //Should this instead be a function in 900Math of the form: rotate(vector, angle) rather than 2 lines of eigen stuff?
+	double dRotation;
+	if(rotation?)
+	{
+		//TODO: put code here to calculate rotation
+	}
+	else
+	{
+		dRotation  = NaN;
+	}
+	movement delta;
+	delta.translation = rotatedMove;
+	delta.rotation = dRotation;
+	return delta;
+	
+}
+/*
+movement threeWheelAvg( array<Eigen::Vector2d, WHEELCOUNT> wheelMove, double angle, bool rotation?)
+{
 	//use horizontally adjacent wheels somehow?, needs to be generalized
 	//Is this needed?
-//}
-
+}
+*/

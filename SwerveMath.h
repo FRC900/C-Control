@@ -35,6 +35,10 @@ class swerveDriveMath
 		//All variables here which don't need to be accessed externally
 		std::array<Eigen::Vector2d, WHEELCOUNT> wheelCoordinates;
 		std::array<double, WHEELCOUNT> normalize(std::array<double, WHEELCOUNT> input);  
-
+		struct movement
+		{
+			Eigen::Vector2d translation;
+			double rotation;
+		};
 }; //Why is a semicolon required here...
 #endif

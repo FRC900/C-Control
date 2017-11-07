@@ -11,8 +11,8 @@ using namespace std;
 int main()
 {	
 	Vector2d wheel1(-4, 4);
+	Vector2d wheel3(4, 4);	
 	Vector2d wheel2(-4, -4);	
-	Vector2d wheel3(4, 4);
 	Vector2d wheel4(4, -4);
 	
 	array <Vector2d, WHEELCOUNT> wheelCoordinates = {wheel1, wheel2, wheel3, wheel4};
