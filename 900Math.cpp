@@ -49,27 +49,27 @@ double pythag(double a, double b)
 	return c;
 }
 */
-
-
-/*std::vector<double> normalize(const std::vector<double>& input) //vector version
+/*
+template <int size>
+std::array<double, size> normalize(std::array<double, size> input, int size) //vector version
 {
-double max = *max_element(wheelMultipliers.begin(), wheelMultipliers.end());
-double min = *min_element(wheelMultipliers.begin(), wheelMultipliers.end());
-double absoluteMax;
-if (abs(max)>abs(min) )
-{
-absoluteMax = abs(max);
-}
-else
-{
-absoluteMax = abs(min);
-}
-std::vector<double> normalized;
-for (int i = 0; i < input.size(); i++)
-{
-normalized.push_back(input.at(i) / absoluteMax);
-}
-return normalized
+	double maxi = *max_element(input.begin(), input.end());
+	double mini = *min_element(input.begin(), input.end());
+	double absoluteMax;
+	if (abs(maxi)>abs(mini) )
+	{
+		absoluteMax = abs(maxi);
+	}
+	else
+	{
+		absoluteMax = abs(mini);
+	}
+	std::array<double, size> normalized;
+	for (int i = 0; i < input.size(); i++)
+	{
+		normalized[i] = (input[i] / absoluteMax);
+	}
+	return normalized
 }
 */
 
@@ -156,10 +156,10 @@ double leastDistantAngleWithinHalfPi(double currentAngle, double targetAngle, bo
 	//returns the closest angle to the current angle = to x*.5*pi + target angle where x is any integer
 	//used for turning wheels to the target angle (swerve)
 	double normalizedDiff = targetAngle - normalizeAngle(currentAngle);
-
 	
 	double withinPi = (abs(normalizedDiff) < pi) ? normalizedDiff : (normalizedDiff - (2 * pi*sign(normalizedDiff)));
 	double withinHalfPi;
+
 	if (abs(withinPi) < (pi / 2))
 	{
 		withinHalfPi =  withinPi;
@@ -171,13 +171,12 @@ double leastDistantAngleWithinHalfPi(double currentAngle, double targetAngle, bo
 		withinHalfPi = (withinPi - sign(withinPi)*pi);
 		reverse = true;
 	}
-	return withinHalfPi+currentAngle; //At some point is is possible to move this code to within the conditional logic so one less variable copy is needed 
+	return withinHalfPi+currentAngle;  
 }
 
 double leastDistantAngleWithinPi(double currentAngle, double targetAngle)
 {
 	double normalizedDiff = targetAngle - normalizeAngle(currentAngle);
-		
 	double withinPi = (abs(normalizedDiff) < pi) ? normalizedDiff : (normalizedDiff - (2 * pi*sign(normalizedDiff)));
 	return withinPi+currentAngle;
 }
@@ -185,9 +184,7 @@ double leastDistantAngleWithinPi(double currentAngle, double targetAngle)
 
 double normalizeAngle(double angle) //normalizes between -pi and pi
 {
-
 	return angle - floor((angle + pi) / (2 * pi)) * 2 * pi;
-	
 }
 
 double coerce(double value, double lowerBound, double upperBound)

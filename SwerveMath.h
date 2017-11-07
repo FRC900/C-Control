@@ -9,25 +9,32 @@
 
 class swerveDriveMath
 {
+	
+	#define WHEELCOUNT 4
 	public: 		
 				
-		#define WHEELCOUNT 4
+		//TODO: Take another look at what is currently public, most of is could be made private or protected
 		
-		swerveDriveMath::swerveDriveMath(std::array<std::array<double, 2>, WHEELCOUNT> _wheelCoordinates);
-		std::array<std::array<double, 2>, WHEELCOUNT> swerveDriveMath::wheelMultipliersXY(std::array<std::array<double, 2>, WHEELCOUNT> wheelCoordinates, std::array<double, 2> rotationCenter);
+		swerveDriveMath(std::array<Eigen::Vector2d, WHEELCOUNT> _wheelCoordinates);
+		
+		std::array<Eigen::Vector2d, WHEELCOUNT> wheelMultipliersXY(std::array<Eigen::Vector2d, WHEELCOUNT> wheelCoordinates, Eigen::Vector2d rotationCenter);
 				
 		
-		std::array<std::array<double, 2>, WHEELCOUNT> swerveDriveMath::wheelSpeedsAngles(std::array<std::array<double, 2>, WHEELCOUNT> wheelMultipliersXY,
-		std::array<double, 2> velocityVector, double rotation, double angle); //for non field centric set angle to pi/2	
-		std::array<double, WHEELCOUNT> swerveDriveMath::parkingAngles(std::array<std::array<double, 2>, WHEELCOUNT> wheelCoordinates); //only must be run once to determine the angles of the wheels in parking config	
+		std::array<Eigen::Vector2d, WHEELCOUNT> wheelSpeedsAngles(std::array<Eigen::Vector2d, WHEELCOUNT> wheelMultipliersXY, Eigen::Vector2d velocityVector, double rotation, double angle); //for non field centric set angle to pi/2	
+		
+		std::array<double, WHEELCOUNT> parkingAngles(std::array<Eigen::Vector2d, WHEELCOUNT> wheelCoordinates); //only must be run once to determine the angles of the wheels in parking config	
 		
 		//Variables which need to be used externally
 		std::array<double, WHEELCOUNT> parkingAngle;		
-		std::array<std::array<double, 2>, WHEELCOUNT> baseWheelMultipliersXY; //Wheel multipliers would need to be rerun if wheels somehow get moved around	
+		std::array<Eigen::Vector2d, WHEELCOUNT> baseWheelMultipliersXY; //Wheel multipliers would need to be rerun if wheels somehow get moved around	
 		double maximumSpeed; //M / s should this be here?
 	
+	
+
 	private:
 		//All variables here which don't need to be accessed externally
-		std::array<std::array<double, 2>, _WHEELCOUNT> wheelCoordinates; 
+		std::array<Eigen::Vector2d, WHEELCOUNT> wheelCoordinates;
+		std::array<double, WHEELCOUNT> normalize(std::array<double, WHEELCOUNT> input);  
+
 }; //Why is a semicolon required here...
 #endif
