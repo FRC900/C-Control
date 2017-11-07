@@ -35,6 +35,9 @@ bool motionProfile::genMotionProfile(double travelDist, std::vector<double> &vel
 	double f1sum[maxSize];
 	f1sum[0] = 0;
 	double f2sum;
+	velocities.reserve(maxSize); //Effeciency YAY
+	velocities.reserve(maxSize);	
+
 	velocities.push_back(0);
 	positions.push_back(0);
 	double prevP = 0;
@@ -81,6 +84,12 @@ bool motionProfile::genMotionProfile(double travelDist, std::vector<double> &vel
 	//cout << velocities.size() << endl;
 	velocities.erase(velocities.begin());
 	positions.erase(positions.begin());
+	if(travelDist < 0)
+	{
+		//TODO: FIX THIS TRANSFORM
+		transform(velocities.begin(), velocities.end(), velocities.begin(),bind1st(multiplies<T>(),-1));		
+		transform(positions.begin(), positions.end(), positions.begin(),bind1st(multiplies<T>(),-1));
+	}
 	return true;
 }
 
