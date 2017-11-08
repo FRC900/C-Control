@@ -87,8 +87,8 @@ bool motionProfile::genMotionProfile(double travelDist, std::vector<double> &vel
 	if(travelDist < 0)
 	{
 		//TODO: FIX THIS TRANSFORM
-		transform(velocities.begin(), velocities.end(), velocities.begin(),bind1st(multiplies<T>(),-1));		
-		transform(positions.begin(), positions.end(), positions.begin(),bind1st(multiplies<T>(),-1));
+		transform(velocities.begin(), velocities.end(), velocities.begin(),bind1st(multiplies<double>(),-1));		
+		transform(positions.begin(), positions.end(), positions.begin(),bind1st(multiplies<double>(),-1));
 	}
 	return true;
 }

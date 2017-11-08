@@ -24,7 +24,7 @@ int main( int argc, char** argv)
     double controlRate = 10;
     double tempV;
     motionProfile testProf(vMax, aMax, jMax, controlRate);
-    double dist = 10;
+    double dist = -10;
     double v = 0;
     double p = 0;
     vector<double> velocities;

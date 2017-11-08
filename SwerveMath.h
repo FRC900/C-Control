@@ -40,5 +40,7 @@ class swerveDriveMath
 			Eigen::Vector2d translation;
 			double rotation;
 		};
+		
+		movement wheelAverage(std::array<Eigen::Vector2d, WHEELCOUNT> wheelMove, double angle, bool rotation);
 }; //Why is a semicolon required here...
 #endif

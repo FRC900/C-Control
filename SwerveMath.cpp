@@ -112,20 +112,20 @@ swerveDriveMath::swerveDriveMath( array<Eigen::Vector2d, WHEELCOUNT> _wheelCoord
 
 //odometry/foward kinematic functions below
 
-movement wheelAverage(array<Eigen::Vector2d, WHEELCOUNT> wheelMove, double angle, bool rotation?)
+swerveDriveMath::movement swerveDriveMath::wheelAverage(array<Eigen::Vector2d, WHEELCOUNT> wheelMove, double angle, bool rotation)
 {
 	Eigen::Vector2d avgMove = (wheelMove[0] +  wheelMove[1] +  wheelMove[2] +  wheelMove[3])/4;
 
 	Eigen::Rotation2Dd r(angle - M_PI/2);	
 	Eigen::Vector2d rotatedMove = r.toRotationMatrix()*avgMove; //Should this instead be a function in 900Math of the form: rotate(vector, angle) rather than 2 lines of eigen stuff?
 	double dRotation;
-	if(rotation?)
+	if(rotation)
 	{
 		//TODO: put code here to calculate rotation
 	}
 	else
 	{
-		dRotation  = NaN;
+		dRotation  = 0;
 	}
 	movement delta;
 	delta.translation = rotatedMove;

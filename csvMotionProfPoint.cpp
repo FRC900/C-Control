@@ -18,14 +18,14 @@ int main( int argc, char** argv)
     fs << "Time" << "," << "Velocity" << "," << "Acceleration" << "," << "Jerk" << std::endl;
     
     double v = 2;
-    double vt = 9;
-    double a = 1;
+    double vt = 4;
+    double a = 5;
     double am = 5;
     double jm = 5;
     double cr = .01;
     double tempA;
     // write data to the file
-    for (int i = 0; i <  2000; i++)
+    for (int i = 0; i <  400; i++)
     {
         tempA = a;
         v = nextVelocity(v, vt, a, am, jm, cr);
