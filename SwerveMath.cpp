@@ -110,8 +110,8 @@ swerveDriveMath::swerveDriveMath( array<Eigen::Vector2d, WHEELCOUNT> _wheelCoord
 
 }
 
-//odometry/foward kinematic functions below
-
+//odometry/foward kinematic functions below, TODO, use ROS function
+/*
 swerveDriveMath::movement swerveDriveMath::wheelAverage(array<Eigen::Vector2d, WHEELCOUNT> wheelMove, double angle, bool rotation)
 {
 	Eigen::Vector2d avgMove = (wheelMove[0] +  wheelMove[1] +  wheelMove[2] +  wheelMove[3])/4;
@@ -133,6 +133,7 @@ swerveDriveMath::movement swerveDriveMath::wheelAverage(array<Eigen::Vector2d, W
 	return delta;
 	
 }
+*/
 /*
 movement threeWheelAvg( array<Eigen::Vector2d, WHEELCOUNT> wheelMove, double angle, bool rotation?)
 {
