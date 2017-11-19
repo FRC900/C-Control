@@ -15,11 +15,11 @@ double nextVelocity(double v, double vt, double &a, double am, double jm, double
 	if(pow(a, 2)/jm >= diffv*signA) //Fix tendency to overshoot?
 	{
 		//overshoot
-		if(abs((diffv/cr) -(a))  < jm*cr) //verify and fix
+		if(((diffv/cr) -(a)/2)*signDiffV <= 0 and (a - (signA * jm * cr)/2)*signA < 0) //verify and fix
 		{
 			//cout<<"finish"<<endl;
 			a = (diffv/cr); //if we can get to target now, do it
-			finish = true;	
+			finish = true;
 		}
 		else
 		{
@@ -40,10 +40,10 @@ double nextVelocity(double v, double vt, double &a, double am, double jm, double
 		if(abs(a*cr) > abs(diffv)) //verify and fix
 		{
 			a = (diffv/cr); //if we can get to target now, do it
-			finish = true;
+			finish =true;
 		}	
 	}
 	nV = v + a * cr;
-	if(finish) {a=0;} //TODO fix
+	if(finish) {a=0;} 
 	return nV;
 }
