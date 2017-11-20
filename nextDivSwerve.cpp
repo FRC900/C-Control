@@ -44,7 +44,12 @@ array<double, 2> nextDifV(double pos, double targetPos, double maxDV, double max
 	correcter = abs(nextV/maxV)+abs(DV/maxDV)	
 	if(correcter>1)
 	{
-		if(abs(DV<maxDV)){nextV = (1 - abs(DV/maxDV))*sign(nextV);} //TODO, fix this
+		if(abs(DV)<maxDV)
+		{
+			nextV = (1 - abs(DV/maxDV))*sign(nextV); //TODO, fix this, should change acceleration etc.
+								 //also forces more acceleration than is possible on the motor with lower speed.
+
+		} 		
 		else
 		{
 			nextV = 0;
