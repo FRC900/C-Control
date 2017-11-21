@@ -1,6 +1,6 @@
 #include <vector>
 #include <iostream>
-#include "thermalNode.h"
+#include "thermalModel.h"
 #include "spline-master/src/spline.h"
 #include <cstdio>
 #include <cstdlib>
@@ -43,21 +43,21 @@ void iterModel(double dt, double current, double voltage, double rotationRate)
 	heatAdd = diffuseTemp();
 	for(int i  = 0; i < nodes.size(); i++)
 	{
-		heatAdd.at(i) += efficiencyCurve(rotationRate)*node.at(i).lossAbsorb*gearboxEfficiency; //Add heat from power losses
+		heatAdd.at(i) += dt*efficiencyCurve(rotationRate)*node.at(i).lossAbsorb*gearboxEfficiency; //Add heat from power losses
 		//TODO: check this/improve
 		//Take into account inertia and store it as heat for bookkeeping? There is probably a better way but still.
 	} 
-	distributeHeat(dissipateHeat);		
-	distributeHeat(heatAdd);
+	distributeHeat(dissipateHeat(dt));		
+	distributeHeat(heatAdd(dt));
 }
-vector<double> thermalModel::diffuseHeat();
+vector<double> thermalModel::diffuseHeat(double dt);
 {
 	//Uses temps and nodes.at(i).connections to diffuse. Returns delta heat.
 	//Run time critical
 
 
 }
-vector<double> thermalModel::dissipateHeat()
+vector<double> thermalModel::dissipateHeat(double dt)
 {
 	//Uses temps and nodes.at(i).exposure and nodes.at(i).fanExposure to dissipate heat. Returns delta heat.
 	//Run time critical

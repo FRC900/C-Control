@@ -42,7 +42,7 @@ class thermalModel
 		double gearboxEfficiency;
 		void distributeHeat(vector<double> heats);
 		tk::spline efficiencyCurve;
-		vector<double> diffuseHeat();					
-		vector<double> dissipateHeat();					
+		vector<double> diffuseHeat(double dt);					
+		vector<double> dissipateHeat(double dt);					
 }; 
 #endif
