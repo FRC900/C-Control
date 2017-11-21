@@ -1,6 +1,7 @@
 # C-Control
 
-This library now requires the use of eigen (specifically the SwerveMath component). See: http://eigen.tuxfamily.org/dox/GettingStarted.html for install instructions.
+This repo contain some basic math functions, some swerve math, and motion profiling code. This repo now requires the use of eigen (specifically the SwerveMath component). See: http://eigen.tuxfamily.org/dox/GettingStarted.html for install instructions. Some testing code used just for motion profiling require gnuplot.
+
 
 TODO:
 
