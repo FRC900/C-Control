@@ -3,23 +3,22 @@
 
 #include <vector>
 #include <math.h>
+#include <array>
+#define ROOMTEMP 25
 
+using namespace std;
 class breakerModel
 {
 	public:
-		double propPopped;
-		double iterModel(double current, double dt, double temp = 25);
+		
+		breakerModel(double _ratedCurrent, double _tempThresh, double _elecResis, double _initialTemp, vector<array<double, 2>> _targetData);
+		double bTemp;
+		double tempThresh;
+		bool iterModel(double current, double dt, double temp = 25);
 	private:
-		double ratedAmp;
-		double n1;
-		double n2;
-		double n3;
-		bool useTemp;
-		double t1;
-		double t2;
-		double t3;
-		double tempF(double temp);
-		double popTime(currentF); //Takes current as a multiple of rated current1
+		double heatCapacity;
+		double elecResis;
+		double thermCond;
 
 
 
@@ -48,5 +47,5 @@ class breakerModel
 
 
 
-}
+};
 #endif

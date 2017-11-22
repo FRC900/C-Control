@@ -1,55 +1,40 @@
 #include <iostream>
 #include "breakerModel.h"
-
-breakerModel::breakerModel(double _ratedAmp, double _n1, double _n2, double _n3, bool _useTemp = false, double _t1 = 0, double _t2 = 0, double _t3 = 0)
+#include <math.h>
+#include <array>
+#include <vector>
+using namespace std;
+//All temps in C
+breakerModel::breakerModel(double _ratedCurrent, double _tempThresh, double _elecResis, double _initialTemp, vector<array<double, 2>> _targetData)
 {
-	ratedAmp= _ratedAmp;
-	n1 	= _n1;
-	n2	= _n2;
-	n3	= _n3;
-	useTemp = _useTemp;
-	t1	= _t1;
-	t2	= _t2;
-	t3	= _t3;
-	propPopped = 0;
-}
 
-iterModel(double current, double dt, double temp = 25)
-{
-	current/=ratedAmp;
-	if(useTemp){current/=tempF(temp);}
-	if(current < 1)
+	bTemp = _initialTemp;
+	elecResis = _elecResis;
+	thermCond = (_ratedCurrent*_ratedCurrent*_elecResis)/(_tempThresh - ROOMTEMP); //complicated 
+	tempThresh = _tempThresh;	
+	//heatCapacity = _heatCapacity;
+	//consider switching below to LSE
+	//For below calculations initial temp is assumed to be equal to ambient temp
+	double totalForAvg = 0;
+	for(int i = 0; i < _targetData.size(); i++)
 	{
-		//TODO: make this actually work
-		propPopped -= (1-current);
+		double I = _targetData[i][0];
+		double t = _targetData[i][1];
+		totalForAvg+=-log(1 - (_tempThresh - ROOMTEMP)/(I*I*elecResis/thermCond))/(thermCond*t); 
 	}
-	else
-	{
-		propPopped += dt/popTime(current);
-	}
-	return propPopped;
+	heatCapacity =  totalForAvg / _targetData.size();
+	//cout<<heatCapacity<<endl;
+	//cout<<thermCond<<endl;
 }
 
-double tempF(double temp)
+bool breakerModel::iterModel(double current, double dt, double temp)
 {
-	return t1*temp*temp + t2*temp + t3;
+	//std::cout<<"elecR:"<<elecResis<<std::endl;	
+	//std::cout<<"thermCond:"<<thermCond<<std::endl;
+	//std::cout<<"heat capacity:"<<heatCapacity<<std::endl;
+	bTemp += dt*heatCapacity*(current*current*elecResis-thermCond*(bTemp - temp));
+	//std::cout<<"temp:"<<bTemp<<std::endl;
+	if(bTemp>=tempThresh){return true;}
+	else{return false;}
 }
-
-double popTime(double currentF)
-{
-	return n1*currentF*currentF + n2*currentF + n3;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
 
