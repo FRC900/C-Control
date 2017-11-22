@@ -24,59 +24,53 @@ int main( int argc, char* argv[])
     // write the file headers
     fs << "Time to Pop" << "," << "Current"  << endl;
     
-    double currentSpacing = 1;
-	double maxCurrent = 50;
-	double minCurrent = 0;
+    double currentSpacing = 10;
+	double maxCurrent = 1000;
+	double minCurrent = 120;
 	double tempThresh = 149; 
 	double elecResis = .0005;
+	double initialTemp = 25;
 	double thermCond = .08;
 	double specificHeat = .2716001267;
-	double initialTemp = 25;
 	cout<<"running"<<endl;
 	vector<double> times, currents; 	
 	// write data to the file	
-	for (float i = minCurrent; i <=  maxCurrent; i+=currentSpacing)
-    	{
-		//if(i==400){
-		
-        	breakerModel test(120, tempThresh, elecResis, i, {{360, 7.5}, {240, 20}, {480, 3.5}});
-		double time = 0;
-		bool fin = false;
-		bool trueFin = false;
-		for(int r = 160; r > 79; r-=1)
+        breakerModel test(120, tempThresh, elecResis, initialTemp, {{360, 4.8}, {240, 10}, {480, 2.4}});
+	double time = 0;
+	bool fin = false;
+	test.bTemp = initialTemp;
+	double i = 400;
+	double limited;
+	for(int t = 0; t<100; t++)
+	{
+		if(test.bTemp>100)
 		{
-		
-		test.bTemp = i;
-		fin = false;
-		for(int t = 0; t<10000; t++)
-		{
-			//cout<<"time:"<<t*.1<<endl;
-			if(test.iterModel(r, .1, i))
-			{
-				fin = true;
-				time = t*.1;
-				break;		
-			}
+			limited = 600*(tempThresh - 5 - test.bTemp)/(tempThresh - 5 - 120);
+			cout<<"temp"<<test.bTemp<<"time"<<endl;
+			if(limited>i){limited = i;}
+			
+        		fs << time << "," << i << endl;
+			times.push_back(t*.1);
+			
+			currents.push_back(test.bTemp);
 		}
-		
-		if(fin){;}
 		else
 		{
-			time = r;
-			trueFin = true;
-			break;
-		}
-		}
-		if(trueFin)
+			limited = i;
+		}	
+		//cout<<"time:"<<t*.1<<endl;
+		if(test.iterModel(limited, .1, initialTemp))
 		{
-        		fs << time << "," << i << endl;
-			times.push_back(i);
-			currents.push_back(time);
-		}//}
-	}	
-	g1.set_style("points").plot_xy(times, currents ,"Effective Rated Current"); 
-	g1.reset_plot();
+			fin = true;
+			time = t*.1;
+			cout<<"popped"<<endl;
+			break;		
+		}
+	}
 
+	g1.set_style("points").plot_xy(times, currents ,"Current");	
+
+	g1.reset_plot();
 	g1.showonscreen();
     wait_for_key();
 	
