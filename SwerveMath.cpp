@@ -13,10 +13,10 @@ swerveDriveMath::swerveDriveMath( array<Eigen::Vector2d, WHEELCOUNT> _wheelCoord
 	//The below coordinate pair can potentially change, it is relative to the wheel coordinates
 	Eigen::Vector2d baseRotationCenter = {0, 0};
 	baseWheelMultipliersXY = wheelMultipliersXY(wheelCoordinates, baseRotationCenter);
-}
+}, 
 
 //used for varying center of rotation and must be run once for initialization
- array<Eigen::Vector2d, WHEELCOUNT> swerveDriveMath::wheelMultipliersXY( array<Eigen::Vector2d, WHEELCOUNT> wheelCoordinates, Eigen::Vector2d rotationCenter)
+ array<Eigen::Vector2d, WHEELCOUNT> swerveDriveMath::wheelMultipliersXY(Eigen::Vector2d rotationCenter)
 {
 	 array<double, WHEELCOUNT> wheelAngles;
 	 array<double, WHEELCOUNT> wheelMultipliers;
@@ -80,10 +80,10 @@ array<Eigen::Vector2d, WHEELCOUNT> swerveDriveMath::wheelSpeedsAngles(array<Eige
 	}
 	return speedsAngles;
 }
-array<double, WHEELCOUNT> swerveDriveMath::parkingAngles( array<Eigen::Vector2d, WHEELCOUNT> wheelCoordinates) 
+array<double, WHEELCOUNT> swerveDriveMath::parkingAngles(array<Eigen::Vector2d, WHEELCOUNT> wheelCoordinates) 
 {
 	//only must be run once to determine the angles of the wheels in parking config
-	array<double, WHEELCOUNT> angles;
+	array<double, WHEELCOUNT> angles;arra
 	for (int i = 0; i < wheelCoordinates.size(); i++)
 	{
 		angles[i] = (atan2(wheelCoordinates[i][0], wheelCoordinates[i][1]));
@@ -92,7 +92,7 @@ array<double, WHEELCOUNT> swerveDriveMath::parkingAngles( array<Eigen::Vector2d,
 }
 
 
- array<double, WHEELCOUNT> swerveDriveMath::normalize( array<double, WHEELCOUNT> input)
+array<double, WHEELCOUNT> swerveDriveMath::normalize( array<double, WHEELCOUNT> input)
 {
 	//Note that this function only works on arrays of size WHEELCOUNT	
 	double maxi =  *max_element(input.begin(), input.end());
