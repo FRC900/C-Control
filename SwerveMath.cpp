@@ -6,25 +6,25 @@
 static const double pi = M_PI;
 using namespace std;
 
-swerveDriveMath::swerveDriveMath( array<Eigen::Vector2d, WHEELCOUNT> _wheelCoordinates)
+swerveDriveMath::swerveDriveMath( array<Eigen::Vector2d, WHEELCOUNT> _wheelCoordinate)
 {
-	wheelCoordinates = _wheelCoordinates;
-	parkingAngle = parkingAngles(wheelCoordinates);
+	wheelCoordinate = _wheelCoordinate;
+	parkingAngle = parkingAngles();
 	//The below coordinate pair can potentially change, it is relative to the wheel coordinates
 	Eigen::Vector2d baseRotationCenter = {0, 0};
-	baseWheelMultipliersXY = wheelMultipliersXY(wheelCoordinates, baseRotationCenter);
-}, 
+	baseWheelMultipliersXY = wheelMultipliersXY(baseRotationCenter);
+} 
 
 //used for varying center of rotation and must be run once for initialization
  array<Eigen::Vector2d, WHEELCOUNT> swerveDriveMath::wheelMultipliersXY(Eigen::Vector2d rotationCenter)
 {
 	 array<double, WHEELCOUNT> wheelAngles;
 	 array<double, WHEELCOUNT> wheelMultipliers;
-	//int size =  wheelCoordinates::size;
+	//int size =  wheelCoordinate::size;
 	for (int i = 0; i < WHEELCOUNT; i++) //increment for each wheel
 	{
-		double x = wheelCoordinates[i][0] - rotationCenter[0];
-		double y = wheelCoordinates[i][1] - rotationCenter[1];
+		double x = wheelCoordinate[i][0] - rotationCenter[0];
+		double y = wheelCoordinate[i][1] - rotationCenter[1];
 		wheelMultipliers[i] = sqrt(x*x + y*y);
 		wheelAngles[i] = (atan2(x, y) + .5*pi);
 	}
@@ -80,13 +80,13 @@ array<Eigen::Vector2d, WHEELCOUNT> swerveDriveMath::wheelSpeedsAngles(array<Eige
 	}
 	return speedsAngles;
 }
-array<double, WHEELCOUNT> swerveDriveMath::parkingAngles(array<Eigen::Vector2d, WHEELCOUNT> wheelCoordinates) 
+array<double, WHEELCOUNT> swerveDriveMath::parkingAngles() 
 {
 	//only must be run once to determine the angles of the wheels in parking config
-	array<double, WHEELCOUNT> angles;arra
-	for (int i = 0; i < wheelCoordinates.size(); i++)
+	array<double, WHEELCOUNT> angles;
+	for (int i = 0; i < wheelCoordinate.size(); i++)
 	{
-		angles[i] = (atan2(wheelCoordinates[i][0], wheelCoordinates[i][1]));
+		angles[i] = (atan2(wheelCoordinate[i][0], wheelCoordinate[i][1]));
 	}
 	return angles;
 }

@@ -34,7 +34,7 @@ int main()
 	cout << testSwerve.baseWheelMultipliersXY[3] << endl;
 
 	Vector2d centerOfRot(-3, 5);
-	array<Vector2d, WHEELCOUNT> testMult  = testSwerve.wheelMultipliersXY(wheelCoordinates, centerOfRot);
+	array<Vector2d, WHEELCOUNT> testMult  = testSwerve.wheelMultipliersXY(centerOfRot);
 	
 	
 	cout << "Test Multipliers" << endl;

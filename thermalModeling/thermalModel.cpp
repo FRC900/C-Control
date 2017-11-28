@@ -33,7 +33,7 @@ thermalModel::thermalModel(vector<double> _thermalCapacities, vector<vector<int>
 	}
 	
 	gearboxEfficiency = _gearboxEfficiency;
-	efficiencyCurve.set_points(_effeciencyCurve[0], _effeciencyCurve[1]);
+	efficiencyCurve.set_points(_efficiencyCurve[0], _efficiencyCurve[1]);
 }
 void iterModel(double dt, double current, double voltage, double rotationRate)
 {
