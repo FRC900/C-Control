@@ -6,7 +6,7 @@
 #include <stdlib.h>
 #include "900Math.h"
 #include <Eigen/Dense>
-#include "spline-master/src/spline.h"
+#include "../spline-master/src/spline.h"
 
 
 

@@ -6,6 +6,7 @@
 static const double pi = M_PI;
 using namespace std;
 
+
 swerveDriveMath::swerveDriveMath( array<Eigen::Vector2d, WHEELCOUNT> _wheelCoordinate)
 {
 	wheelCoordinate = _wheelCoordinate;
@@ -106,14 +107,16 @@ array<double, WHEELCOUNT> swerveDriveMath::normalize( array<double, WHEELCOUNT> 
 	{
 		absoluteMax = abs(mini);
 	}
-	array<double, WHEELCOUNT> normalized;
-	for (int i = 0; i < input.size(); i++)
+	if(absoluteMax > 1)
 	{
-		normalized[i] = (input[i] / absoluteMax);
+		array<double, WHEELCOUNT> normalized;
+		for (int i = 0; i < input.size(); i++)
+		{
+			normalized[i] = (input[i] / absoluteMax);
+		}
+		return normalized;
 	}
-	return normalized;
-
-
+	else{return input;}
 }
 
 //odometry/foward kinematic functions below, TODO, use ROS function

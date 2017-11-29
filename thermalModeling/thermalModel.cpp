@@ -1,7 +1,7 @@
 #include <vector>
 #include <iostream>
 #include "thermalModel.h"
-#include "spline-master/src/spline.h"
+#include "../spline-master/src/spline.h"
 #include <cstdio>
 #include <cstdlib>
 

@@ -15,7 +15,7 @@ class swerveDriveMath
 	//There is likely a better way to handle WHEELCOUNT
 	public: 		
 		swerveDriveMath(std::array<Eigen::Vector2d, WHEELCOUNT> _wheelCoordinate);
-		
+		swerveDriveMath() {};		
 		std::array<Eigen::Vector2d, WHEELCOUNT> wheelMultipliersXY(Eigen::Vector2d rotationCenter);
 				
 		

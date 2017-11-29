@@ -1,5 +1,6 @@
 #include <iostream>
 #include <functional>	
+#define WHEELCOUNT 4
 
 using namespace std;
 class test
@@ -33,5 +34,7 @@ int main()
 	std::function<int(int, int)> addition = addit;
 	test tester(addition);
 	cout << tester.suma(1, 7) <<endl;
+	array<double, WHEELCOUNT> hi = {[0 ... WHEELCOUNT] = 1};
 	return 0;
+
 }

@@ -61,12 +61,12 @@ int main()
 	
 	cout << "Speeds and Angles" << endl;
 
-	Vector2d velocity(.75, -.25);	
-	double rotation = .3;
+	Vector2d velocity(0, 0);	
+	double rotation = .8;
 	double angle = M_PI/2;
 
 
-	array<Vector2d, WHEELCOUNT> speedsAngles = testSwerve.wheelSpeedsAngles(testSwerve.baseWheelMultipliersXY, velocity, rotation, angle);
+	array<Vector2d, WHEELCOUNT> speedsAngles = testSwerve.wheelSpeedsAngles(testMult, velocity, rotation, angle);
 	
 	cout << speedsAngles[0] << endl;
 	cout << speedsAngles[1] << endl;
